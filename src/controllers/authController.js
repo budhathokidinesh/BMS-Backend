@@ -1,6 +1,7 @@
 import { responseClient } from "../middlewares/responseClient.js";
 import { createNewSession } from "../models/session/SessionModel.js";
 import { createNewUser } from "../models/user/UserModel.js";
+import { userActivationUrlEmail } from "../services/email/emailService.js";
 import { hashPassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -27,16 +28,20 @@ export const insertUser = async (req, res, next) => {
       });
       //This is to see session is inserted or not?
       if (session?._id) {
-        const url =
-          "http//:localhost:5371?sessionId=" +
-          session._id +
-          "&t=" +
-          session.token;
+        const url = `${process.env.ROOT_URL}/activate-user?sessionId=${session._id}&t=${session.token}`;
+
         //send this url to theie email
         console.log(url);
-        const message =
-          "We have sent you an email with activation link. Please check your email and follow te instruction to activate your account";
-        return responseClient({ req, res, message });
+        const emailId = await userActivationUrlEmail({
+          email: user.email,
+          url,
+          name: user.fName,
+        });
+        if (emailId) {
+          const message =
+            "We have sent you an email with activation link. Please check your email and follow te instruction to activate your account";
+          return responseClient({ req, res, message });
+        }
       }
       // res.json({
       //   status: "success",
