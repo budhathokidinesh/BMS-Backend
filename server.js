@@ -1,6 +1,7 @@
 import express from "express";
 const app = express();
 const PORT = process.env.PORT || 8000;
+import { errorHandler } from "./src/middlewares/errorHandler.js";
 
 //middlewares
 import cors from "cors";
@@ -16,13 +17,14 @@ app.use("/api/v1/auth", authRoute);
 
 //server status
 app.get("/", (req, res) => {
-  res.json({
-    message: "server is live",
-  });
+  const message = "server is live";
+  responseClient({ req, res, message });
 });
 
 //DB connection
 import { dbConnect } from "./src/config/dbConfig.js";
+import { responseClient } from "./src/middlewares/responseClient.js";
+
 dbConnect()
   .then(() => {
     app.listen(PORT, (error) => {
@@ -32,3 +34,5 @@ dbConnect()
     });
   })
   .catch((error) => console.log(error));
+
+app.use(errorHandler);
