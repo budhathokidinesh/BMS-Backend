@@ -3,14 +3,19 @@ import {
   createNewSession,
   deleteSession,
 } from "../models/session/SessionModel.js";
-import { createNewUser, updateUser } from "../models/user/UserModel.js";
+import {
+  createNewUser,
+  getUserByEmail,
+  updateUser,
+} from "../models/user/UserModel.js";
 import {
   userActivatedNotificationEmail,
   userActivationUrlEmail,
 } from "../services/email/emailService.js";
-import { hashPassword } from "../utils/bcrypt.js";
+import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
-
+import { getJwts } from "../utils/jwt.js";
+//this is for the inserting new user
 export const insertUser = async (req, res, next) => {
   try {
     //to do signup process
@@ -70,6 +75,7 @@ export const insertUser = async (req, res, next) => {
   }
 };
 
+//this is activating new user
 export const activateUser = async (req, res, next) => {
   try {
     const { sessionId, t } = req.body;
@@ -95,6 +101,39 @@ export const activateUser = async (req, res, next) => {
     }
     const message = "Invalid link or token expired!";
     const statusCode = 400;
+    responseClient({ req, res, message, statusCode });
+  } catch (error) {
+    next(error);
+  }
+};
+//this is for the login user controller
+export const loginUser = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    console.log(email, password);
+    //get user by email
+    const user = await getUserByEmail(email);
+    if (user?._id) {
+      console.log(user);
+      //compare password
+      const isPassMatch = comparePassword(password, user.password);
+      if (isPassMatch) {
+        console.log("user authenticated successfully");
+        //create jwts
+        const jwts = await getJwts(email);
+
+        //response jwts
+        return responseClient({
+          req,
+          res,
+          message: "Login successful",
+          payload: jwts,
+        });
+      }
+    }
+
+    const message = "Invalid login details";
+    const statusCode = 401;
     responseClient({ req, res, message, statusCode });
   } catch (error) {
     next(error);

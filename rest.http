@@ -27,3 +27,15 @@ Content-Type: application/json
     "sessionId":"aaa",
     "t":"06c604f4-011b-4e08-8a13-1e7a06fba2f4"
 }
+### login user
+POST  {{rootUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "physmarika@gmail.com",
+    "password":"Gaighat123@"
+}
+
+### get user profile
+GET {{rootUrl}}/api/v1/users/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoeXNtYXJpa2FAZ21haWwuY29tIiwiaWF0IjoxNzM5Njg2NjY2LCJleHAiOjE3Mzk2ODc1NjZ9.oRrRSMNdpIFe4l1z4HgDQ23Nwth7f_cXp_0yui69Id0

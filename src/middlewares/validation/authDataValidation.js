@@ -30,3 +30,12 @@ export const userActivationDataValidation = (req, res, next) => {
   };
   validateData({ req, res, next, obj });
 };
+
+//this is for login data validation
+export const loginDataValidation = (req, res, next) => {
+  const obj = {
+    email: EMAILREQ,
+    password: PASSWORDREQ,
+  };
+  validateData({ req, res, next, obj });
+};
