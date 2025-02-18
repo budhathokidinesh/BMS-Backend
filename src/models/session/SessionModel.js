@@ -8,6 +8,10 @@ export const createNewSession = (sessionObj) => {
 export const deleteSession = (filter) => {
   return SessionSchema.findOneAndDelete(filter);
 };
+//this is for deleting the many session
+export const deleteManySession = (filter) => {
+  return SessionSchema.deleteMany(filter);
+};
 //this is for searching the token
 export const getSession = (filter) => {
   return SessionSchema.findOne(filter);
