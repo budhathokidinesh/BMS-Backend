@@ -1,42 +1,20 @@
 import express from "express";
 import { responseClient } from "../middlewares/responseClient.js";
-import { verifyAccessJWT } from "../utils/jwt.js";
-import { getSession } from "../models/session/SessionModel.js";
-import { getUserByEmail } from "../models/user/UserModel.js";
+
+import { userAuthMiddleware } from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
-router.get("/profile", async (req, res) => {
-  //get accessJWT
-  const { authorization } = req.headers;
+router.get("/profile", userAuthMiddleware, async (req, res) => {
+  const user = req.userInfo;
+  user.password = undefined;
+  user.__v = undefined;
+  user.refreshJWT = undefined;
 
-  let message = "Unauthorized";
-  if (authorization) {
-    const token = authorization.split(" ")[1];
-
-    //check if valid
-    const decoded = verifyAccessJWT(token);
-    console.log(decoded);
-    if (decoded.email) {
-      //check if exist in session table
-      const tokenSession = await getSession({ token });
-      if (tokenSession?._id) {
-        //get user by email
-        const user = await getUserByEmail(decoded.email);
-        if (user?._id && user.status === "active") {
-          //return the user
-
-          return responseClient({
-            req,
-            res,
-            message: "User pfofile",
-            payload: user,
-          });
-        }
-      }
-    }
-    message = decoded === "jwt expired" ? decoded : "Unauthorized";
-  }
-  //   message ="jwt expired" ? decoded : "Unauthorized";
-  responseClient({ req, res, message, statusCode: 401 });
+  return responseClient({
+    req,
+    res,
+    message: "User pfofile",
+    payload: user,
+  });
 });
 export default router;
