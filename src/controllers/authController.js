@@ -154,3 +154,17 @@ export const logoutUser = async (req, res, next) => {
     next(error);
   }
 };
+//this is for the generating otp
+export const generateOTP = async (req, res, next) => {
+  try {
+    //get the token
+    const { email } = req.userInfo;
+    //update refreshJWT to ""
+    await updateUser({ email }, { refreshJWT: "" });
+    //remove the accessJWT from session table
+    await deleteManySession({ association: email });
+    responseClient({ req, res, message: "You are logged out" });
+  } catch (error) {
+    next(error);
+  }
+};
