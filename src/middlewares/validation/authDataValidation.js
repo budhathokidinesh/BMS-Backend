@@ -4,6 +4,7 @@ import {
   EMAILREQ,
   FNAMEREQ,
   LNAMEREQ,
+  OTP,
   PASSWORDREQ,
   PHONE,
   SESSIONIDREQ,
@@ -36,6 +37,15 @@ export const loginDataValidation = (req, res, next) => {
   const obj = {
     email: EMAILREQ,
     password: PASSWORDREQ,
+  };
+  validateData({ req, res, next, obj });
+};
+//this is for reset password validation
+export const newPasswordResetValidation = (req, res, next) => {
+  const obj = {
+    email: EMAILREQ,
+    password: PASSWORDREQ,
+    otp: OTP,
   };
   validateData({ req, res, next, obj });
 };

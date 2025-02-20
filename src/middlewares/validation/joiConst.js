@@ -20,3 +20,6 @@ export const SESSIONIDREQ = SESSIONID.required();
 
 export const T = Joi.string().min(10).max(40);
 export const TREQ = T.required();
+
+//this is for const
+export const OTP = Joi.number().min(999).max(9999).required();

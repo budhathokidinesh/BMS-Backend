@@ -1,3 +1,4 @@
+//this email templete is attached with the activation link to activate the user
 export const userActivationUrlEmailTemplete = ({ email, name, url }) => {
   return {
     from: `"Local book shop 👻" <${process.env.SMTP_EMAIL}>`, // sender address
@@ -24,6 +25,7 @@ Dinesh Budhathoki
     `, // html body
   };
 };
+//this email templete to send notification to the user your account has been activated
 export const userActivatedNotificationTemplete = ({ email, name, url }) => {
   return {
     from: `"Local book shop 👻" <${process.env.SMTP_EMAIL}>`, // sender address
@@ -46,5 +48,61 @@ export const userActivatedNotificationTemplete = ({ email, name, url }) => {
 Regards
 Dinesh Budhathoki
     `, // html body
+  };
+};
+//this email templete is to send OTP for the user
+export const passwordResetOTPSendTemplete = ({ email, name, otp }) => {
+  return {
+    from: `"Local book shop 👻" <${process.env.SMTP_EMAIL}>`, // sender address
+    to: email, // list of receivers
+    subject: "Your OTP to reset tha password", // Subject line
+    text: `Dear ${name}, Here is your OTP to reset your password ${otp}. This otp will expire in 5 minuts. Thanks`, // plain text body
+    // html body
+    html: `
+    <p>Dear ${name}</p>
+    <br />
+<br />
+<br />
+<p>Here is your OTP to reset your password ${otp}. This otp will expire in 5 minuts. Thanks</p>
+<br />
+<br />
+
+<br />
+<br />
+<br />
+<br />
+Regards
+Dinesh Budhathoki
+    `,
+  };
+};
+//this is for notification after successfully updating the password
+export const userProfileUpdatedNotificationTemplete = ({
+  email,
+  name,
+  otp,
+}) => {
+  return {
+    from: `"Local book shop 👻" <${process.env.SMTP_EMAIL}>`, // sender address
+    to: email, // list of receivers
+    subject: "Your account has been updated", // Subject line
+    text: `Dear ${name}, Your account has been just updated. If this was not you please change your password. Thanks`, // plain text body
+    // html body
+    html: `
+    <p>Dear ${name}</p>
+    <br />
+<br />
+<br />
+<p>Your account has been just updated. If this was not you please change your password. Thanks</p>
+<br />
+<br />
+
+<br />
+<br />
+<br />
+<br />
+Regards
+Dinesh Budhathoki
+    `,
   };
 };

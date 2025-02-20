@@ -1,6 +1,8 @@
 import {
+  passwordResetOTPSendTemplete,
   userActivatedNotificationTemplete,
   userActivationUrlEmailTemplete,
+  userProfileUpdatedNotificationTemplete,
 } from "./emailTemplates.js";
 import { emailTransporter } from "./transport.js";
 
@@ -16,6 +18,22 @@ export const userActivationUrlEmail = async (obj) => {
 export const userActivatedNotificationEmail = async (obj) => {
   const transport = emailTransporter();
   const info = await transport.sendMail(userActivatedNotificationTemplete(obj));
+
+  return info.messageId;
+};
+// this is for the sending OTP for forgot password
+export const passwordResetOTPNOtificationEmail = async (obj) => {
+  const transport = emailTransporter();
+  const info = await transport.sendMail(passwordResetOTPSendTemplete(obj));
+
+  return info.messageId;
+};
+// this is for the sending notification for the account has been updated
+export const userProfileUpdatedNotificationEmail = async (obj) => {
+  const transport = emailTransporter();
+  const info = await transport.sendMail(
+    userProfileUpdatedNotificationTemplete(obj)
+  );
 
   return info.messageId;
 };
