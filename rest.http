@@ -33,7 +33,7 @@ Content-Type: application/json
 
 {
     "email": "physmarika@gmail.com",
-    "password":"Gaighat984288@"
+    "password":"Gaighat123@"
 }
 
 ### get user profile
@@ -70,11 +70,15 @@ GET  {{rootUrl}}/api/v1/books
 ### post books
 POST   {{rootUrl}}/api/v1/books
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoeXNtYXJpa2FAZ21haWwuY29tIiwiaWF0IjoxNzQwMTUxMjkxLCJleHAiOjE3NDAxNTIxOTF9.SnMvMq0w9NzPTis-YEohKKNdxNJsyruJzt1-zE3Dpow
 
 {
-    "titile": "Dinseh",
-    "year": 1990,
-    "author": "dinesh",
-    "imgUrl": "string",
-    "isbn": "1234"
+    "title": "Dinesh Biography",
+      "year": 2008,
+      "author": "Douglas Crockford",
+      "imgUrl": "http://example.com/javascript-the-good=parts.jpg",
+      "isbn": "984288277011",
+      "genre": "Programming",
+      "description": "This ook is about java script. It is very useful who is learning new programming language."
+      
 }

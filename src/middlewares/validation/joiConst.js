@@ -23,3 +23,23 @@ export const TREQ = T.required();
 
 //this is for const
 export const OTP = Joi.number().min(999).max(9999).required();
+
+//this is for book validation(this is generalize validation)
+export const SHORT_STR = Joi.string().min(1).max(100);
+export const SHORT_STR_REQ = SHORT_STR.required();
+
+export const LONG_STR = Joi.string().min(1).max(5000);
+export const LONG_STR_REQ = SHORT_STR.required();
+
+export const YEAR = Joi.number()
+  .integer()
+  .min(1900)
+  .max(new Date().getFullYear());
+export const YEAR_REQ = YEAR.required();
+// export const ISBN = Joi.number().integer().min(1000000000).max(10000000000000);
+export const ISBN = Joi.string()
+  .pattern(/^\d{10}$|^\d{13}$/)
+  .message({
+    "string.pattern.base": "ISBN should be either 10 or 13 numbers",
+  });
+export const ISBN_REQ = ISBN.required();
