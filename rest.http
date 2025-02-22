@@ -64,8 +64,13 @@ Content-Type: application/json
 
 #### Book API
 
-### get books
+### get book(s)
 GET  {{rootUrl}}/api/v1/books
+
+### get book(s) for admin access only
+GET  {{rootUrl}}/api/v1/books/admin
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoeXNtYXJpa2FAZ21haWwuY29tIiwiaWF0IjoxNzQwMjAzNzgzLCJleHAiOjE3NDAyMDQ2ODN9.f5vOEal28xi9-cdCeMEEKVOCtuzxbYZEACmH0FoWQ9c
+
 
 ### post books
 POST   {{rootUrl}}/api/v1/books
