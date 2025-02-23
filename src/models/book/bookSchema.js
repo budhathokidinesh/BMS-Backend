@@ -6,6 +6,12 @@ const bookSchema = new mongoose.Schema(
       type: String,
       default: "inactive", //active
     },
+    slug: {
+      type: String,
+      unique: true,
+      index: 1,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -38,6 +44,14 @@ const bookSchema = new mongoose.Schema(
     },
     averageRating: {
       type: Number,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    expectedAvailable: {
+      type: Date,
+      default: null,
     },
 
     addedBy: {

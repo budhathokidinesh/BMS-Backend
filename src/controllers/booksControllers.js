@@ -4,6 +4,7 @@ import {
   getAllPublicBooks,
 } from "../models/book/bookModel.js";
 import { responseClient } from "../middlewares/responseClient.js";
+import slugify from "slugify";
 
 //this is for inserting new book
 export const insertNewBook = async (req, res, next) => {
@@ -11,6 +12,7 @@ export const insertNewBook = async (req, res, next) => {
     const { fName, _id } = req.userInfo;
     const obj = {
       ...req.body,
+      slug: slugify(req.body.title, { lower: true }),
       addedBy: {
         name: fName,
         adminId: _id,
@@ -32,8 +34,18 @@ export const insertNewBook = async (req, res, next) => {
           res,
           message:
             "Unable to add new book in database, try again later. Thanks",
+          statusCode: 401,
         });
   } catch (error) {
+    if (error.message.includes("E11000 duplicate key")) {
+      return responseClient({
+        req,
+        res,
+        message:
+          "Duplicate data is not allowed: " + JSON.stringify(error.keyValue),
+        statusCode: 400,
+      });
+    }
     next(error);
   }
 };
