@@ -10,6 +10,7 @@ import morgan from "morgan";
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //api endpoints
 import authRoute from "./src/routes/authRoute.js";

@@ -27,4 +27,13 @@ router.post(
   newBookDataValidation,
   insertNewBook
 );
+
+//Update the book
+router.put(
+  "/",
+  userAuthMiddleware,
+  adminAuthMiddleware,
+  newBookDataValidation,
+  insertNewBook
+);
 export default router;
