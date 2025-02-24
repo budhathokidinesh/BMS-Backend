@@ -19,8 +19,17 @@ router.get(
   adminAuthMiddleware,
   getAllBooksController
 );
-//inserting new book
+//Inserting new book
 router.post(
+  "/",
+  userAuthMiddleware,
+  adminAuthMiddleware,
+  newBookDataValidation,
+  insertNewBook
+);
+
+//Update the book
+router.put(
   "/",
   userAuthMiddleware,
   adminAuthMiddleware,
