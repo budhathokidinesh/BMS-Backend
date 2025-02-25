@@ -1,7 +1,9 @@
 import {
   createNewBook,
+  deleteBook,
   getAllBooks,
   getAllPublicBooks,
+  updateBook,
 } from "../models/book/bookModel.js";
 import { responseClient } from "../middlewares/responseClient.js";
 import slugify from "slugify";
@@ -74,6 +76,59 @@ export const getAllBooksController = async (req, res, next) => {
       payload,
       message: "The book has been added successfully.",
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//this is for updating book
+export const updateBookController = async (req, res, next) => {
+  try {
+    const { fName, _id } = req.userInfo;
+    const obj = {
+      ...req.body,
+      lastUpdatedBy: {
+        name: fName,
+        adminId: _id,
+      },
+    };
+    const book = await updateBook(obj);
+    book?._id
+      ? responseClient({
+          req,
+          res,
+          message: "The book has been added successfully.",
+        })
+      : responseClient({
+          req,
+          res,
+          message:
+            "Unable to add new book in database, try again later. Thanks",
+          statusCode: 400,
+        });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//this controller is for deleting the book
+export const deleteBookController = async (req, res, next) => {
+  try {
+    const { _id } = req.params;
+    const book = await deleteBook(_id);
+    book?._id
+      ? responseClient({
+          req,
+          res,
+          message: "The book has been deleted succesfully.",
+        })
+      : responseClient({
+          req,
+          res,
+          message:
+            "Unable to delete book from database, try again later. Thanks",
+          statusCode: 400,
+        });
   } catch (error) {
     next(error);
   }
