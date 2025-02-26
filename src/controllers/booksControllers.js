@@ -12,6 +12,10 @@ import slugify from "slugify";
 export const insertNewBook = async (req, res, next) => {
   try {
     const { fName, _id } = req.userInfo;
+
+    const { path } = req.file;
+    console.log(path);
+
     const obj = {
       ...req.body,
       slug: slugify(req.body.title, { lower: true }),
@@ -23,6 +27,7 @@ export const insertNewBook = async (req, res, next) => {
         name: fName,
         adminId: _id,
       },
+      imgUrl: path,
     };
     const book = await createNewBook(obj);
     book?._id

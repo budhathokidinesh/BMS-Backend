@@ -4,7 +4,7 @@ import multer from "multer";
 import fs from "fs";
 // const upload = multer({ dest: "uploads/" });
 const __dirname = path.resolve();
-const fpDestination = path.join(__dirname, "/public/imgs");
+const fpDestination = "public/imgs";
 
 //this is storing image in disk storage
 const storage = multer.diskStorage({
