@@ -1,15 +1,16 @@
 import express from "express";
 const app = express();
 const PORT = process.env.PORT || 8000;
-import { errorHandler } from "./src/middlewares/errorHandler.js";
 
 //middlewares
 import cors from "cors";
 import morgan from "morgan";
-
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+import { errorHandler } from "./src/middlewares/errorHandler.js";
+
+//this is for uploading files
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
