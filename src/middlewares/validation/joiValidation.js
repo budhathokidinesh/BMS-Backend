@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { responseClient } from "../responseClient.js";
+import { deleteUploadedFiles } from "../../utils/fileUtil.js";
 
 // here no need try catch because it is middleware andd central error handler will manage any error if this produce
 export const validateData = ({ req, res, next, obj }) => {
@@ -10,6 +11,10 @@ export const validateData = ({ req, res, next, obj }) => {
 
   if (value.error) {
     console.log(req.file, req.files);
+    if (req.file || Array.isArray(req.files)) {
+      //proceed to deleting the upload file
+      deleteUploadedFiles(req);
+    }
     return responseClient({
       req,
       res,
