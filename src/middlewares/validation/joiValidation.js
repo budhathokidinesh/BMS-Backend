@@ -9,6 +9,7 @@ export const validateData = ({ req, res, next, obj }) => {
   const value = schema.validate(req.body);
 
   if (value.error) {
+    console.log(req.file, req.files);
     return responseClient({
       req,
       res,

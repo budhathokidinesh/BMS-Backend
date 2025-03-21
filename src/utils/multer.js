@@ -40,5 +40,3 @@ export const upload = multer({
   fileFilter: fileFilter,
   limits: { fileSize: 2 * 1024 * 1024 }, // 2Mb
 });
-
-//end multer setup
