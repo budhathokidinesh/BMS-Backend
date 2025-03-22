@@ -7,6 +7,7 @@ import {
 } from "../models/book/bookModel.js";
 import { responseClient } from "../middlewares/responseClient.js";
 import slugify from "slugify";
+import { deleteFile } from "../utils/fileUtil.js";
 
 //this is for inserting new book
 export const insertNewBook = async (req, res, next) => {
@@ -90,6 +91,23 @@ export const getAllBooksController = async (req, res, next) => {
 export const updateBookController = async (req, res, next) => {
   try {
     const { fName, _id } = req.userInfo;
+    console.log(req.body);
+
+    req.body.imageList = req.body.imageList.split(",");
+    //remove imgToDeleteList from imageList
+    if (req.body.imgToDelete.length) {
+      req.body.imageList = req.body.imageList.filter(
+        (img) => !req.body.imgToDelete.includes(img)
+      );
+      req.body.imgToDelete.map((img) => deleteFile(img));
+    }
+
+    if (Array.isArray(req.files)) {
+      req.body.imageList = [
+        ...req.body.imageList,
+        ...req.files.map((obj) => obj.path),
+      ];
+    }
     const obj = {
       ...req.body,
       lastUpdatedBy: {
@@ -102,7 +120,7 @@ export const updateBookController = async (req, res, next) => {
       ? responseClient({
           req,
           res,
-          message: "The book has been added successfully.",
+          message: "The book has been updated successfully.",
         })
       : responseClient({
           req,
@@ -121,6 +139,7 @@ export const deleteBookController = async (req, res, next) => {
   try {
     const { _id } = req.params;
     const book = await deleteBook(_id);
+    book.imageList.map((img) => deleteFile(img));
     book?._id
       ? responseClient({
           req,

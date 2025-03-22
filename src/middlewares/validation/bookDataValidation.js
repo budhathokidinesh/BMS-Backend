@@ -5,6 +5,7 @@ import {
   LONG_STR_REQ,
   SHORT_STR_REQ,
   STATUS_REQ,
+  STR_ARRAY,
   YEAR_REQ,
 } from "./joiConst.js";
 import { validateData } from "./joiValidation.js";
@@ -25,6 +26,7 @@ export const newBookDataValidation = (req, res, next) => {
 };
 //this is for update book validation
 export const updateBookDataValidation = (req, res, next) => {
+  console.log(req.body);
   const obj = {
     _id: _ID_REQ,
     status: STATUS_REQ,
@@ -35,6 +37,8 @@ export const updateBookDataValidation = (req, res, next) => {
     genre: SHORT_STR_REQ,
     expectedAvailable: EXPECTEDAVAILABLE,
     description: LONG_STR_REQ,
+    imageList: LONG_STR_REQ.allow(""),
+    imgToDelete: STR_ARRAY,
   };
   validateData({ req, res, next, obj });
 };

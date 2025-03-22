@@ -2,7 +2,7 @@ import { log } from "console";
 import { unlink } from "fs";
 import { resolve } from "path";
 //actually delete the file
-const deleteFile = (filePath) => {
+export const deleteFile = (filePath) => {
   unlink(resolve(filePath), () => {
     console.log(filePath, "has been deleted");
   });
