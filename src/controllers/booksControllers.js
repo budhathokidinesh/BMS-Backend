@@ -91,11 +91,10 @@ export const getAllBooksController = async (req, res, next) => {
 export const updateBookController = async (req, res, next) => {
   try {
     const { fName, _id } = req.userInfo;
-    console.log(req.body);
 
     req.body.imageList = req.body.imageList.split(",");
     //remove imgToDeleteList from imageList
-    if (req.body.imgToDelete.length) {
+    if (req.body?.imgToDelete?.length) {
       req.body.imageList = req.body.imageList.filter(
         (img) => !req.body.imgToDelete.includes(img)
       );
